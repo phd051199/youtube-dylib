@@ -1,0 +1,52 @@
+name: Update Submodules
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+jobs:
+  update-submodules:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4.1.7
+
+      - name: Set up Git
+        run: |
+           git config --global user.email "actions@github.com"
+           git config --global user.name "GitHub Actions"
+
+      - name: Update submodules
+        run: |
+          git submodule update --init --recursive --remote Tweaks/Alderis
+          git add .
+          git submodule update --init --recursive --remote Tweaks/DontEatMyContent
+          git add .
+          git submodule update --init --recursive --remote Tweaks/iSponsorBlock
+          git add .
+          git submodule update --init --recursive --remote Tweaks/NoYTPremium
+          git add .
+          git submodule update --init --recursive --remote Tweaks/Return-YouTube-Dislikes
+          git add .
+          git submodule update --init --recursive --remote Tweaks/YouPiP
+          git add .
+          git submodule update --init --recursive --remote Tweaks/YouTube-X
+          git add .
+          git submodule update --init --recursive --remote Tweaks/YouTubeHeader
+          git add .
+          git submodule update --init --recursive --remote Tweaks/YTUHD
+          git add .
+          git submodule update --init --recursive
+          git commit -m "updated submodules"
+          git push
+        continue-on-error: true
+
+      - name: Check exit code
+        run: |
+          exit_code=$?
+          if [ $exit_code -ne 0 ]; then
+            echo "Submodule update failed with exit code $exit_code"
+            exit 1
+          fi

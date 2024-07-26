@@ -1,0 +1,6 @@
+Package: com.dph.ytplus
+Name: YouTube Plus
+Version: 0.0.1
+Architecture: iphoneos-arm
+Author: Duy Pham
+Depends: mobilesubstrate (>= 0.9.5000), firmware (>= 11.0)
