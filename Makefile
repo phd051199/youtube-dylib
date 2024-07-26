@@ -13,7 +13,7 @@ $(TWEAK_NAME)_CFLAGS = -fobjc-arc -Wno-module-import-in-extern-c
 
 include $(THEOS)/makefiles/common.mk
 ifneq ($(JAILBROKEN),1)
-SUBPROJECTS += Tweaks/Return-YouTube-Dislikes Tweaks/YouPiP Tweaks/YTUHD Tweaks/DontEatMyContent Tweaks/NoYTPremium Tweaks/YouTube-X Tweaks/YTPremiumLogo
+SUBPROJECTS += Tweaks/Return-YouTube-Dislikes Tweaks/YouPiP Tweaks/YTUHD Tweaks/DontEatMyContent Tweaks/NoYTPremium Tweaks/YouTube-X Tweaks/YTPremiumLogo Tweaks/YouChooseQuality
 include $(THEOS_MAKE_PATH)/aggregate.mk
 endif
 include $(THEOS_MAKE_PATH)/tweak.mk

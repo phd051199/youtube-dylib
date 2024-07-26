@@ -25,3 +25,6 @@
 [submodule "Tweaks/YouTube-X"]
 	path = Tweaks/YouTube-X
 	url = https://github.com/PoomSmart/YouTube-X.git
+[submodule "Tweaks/YouChooseQuality"]
+	path = Tweaks/YouChooseQuality
+	url = https://github.com/PoomSmart/YouChooseQuality.git
