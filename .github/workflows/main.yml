@@ -86,7 +86,6 @@ jobs:
           mkdir output
           cp -r Library/Application\ Support/*.bundle output
           cp -r Library/MobileSubstrate/DynamicLibraries/*.dylib output
-          cp -r Library/Frameworks/*.framework output
 
         env:
           THEOS: ${{ github.workspace }}/theos

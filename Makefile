@@ -23,7 +23,5 @@ ISPONSORBLOCK_PATH = Tweaks/iSponsorBlock
 before-package::
 	@mkdir -p $(THEOS_STAGING_DIR)/Library/Application\ Support
 	@mkdir -p $(THEOS_STAGING_DIR)/Library/MobileSubstrate/DynamicLibraries
-	@mkdir -p $(THEOS_STAGING_DIR)/Library/Frameworks
-	@cp -r $(ISPONSORBLOCK_PATH)/*.bundle $(ISPONSORBLOCK_PATH)/*.plist $(THEOS_STAGING_DIR)/Library/Application\ Support/
+	@cp -r $(ISPONSORBLOCK_PATH)/*.bundle $(THEOS_STAGING_DIR)/Library/Application\ Support/
 	@cp -r $(ISPONSORBLOCK_PATH)/*.dylib $(THEOS_STAGING_DIR)/Library/MobileSubstrate/DynamicLibraries/
-	@cp -r $(ISPONSORBLOCK_PATH)/*.framework $(THEOS_STAGING_DIR)/Library/Frameworks/
