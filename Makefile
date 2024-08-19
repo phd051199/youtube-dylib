@@ -18,7 +18,7 @@ include $(THEOS_MAKE_PATH)/aggregate.mk
 endif
 include $(THEOS_MAKE_PATH)/tweak.mk
 
-DYLIBS_PATH = Tweaks/Dylibs
+DYLIBS_PATH = Tweaks/YTLite
 
 before-package::
 	@mkdir -p $(THEOS_STAGING_DIR)/Library/Application\ Support

@@ -22,16 +22,12 @@ jobs:
           ref: ${{ github.event.inputs.commit_id || github.ref }}
           submodules: recursive
 
-      - name: Install Dependencies
-        run: brew install ldid dpkg make
-
       - name: Setup Theos
-        uses: actions/checkout@v4.1.6
-        with:
-          repository: theos/theos
-          ref: master
-          path: theos
-          submodules: recursive
+      - uses: Randomblock1/theos-action@v1
+        with:          
+          theos-src: 'https://github.com/theos/theos'
+          theos-sdks: 'https://github.com/theos/sdks'
+          theos-sdks-branch: 'master'
 
       - name: Caching
         id: SDK
@@ -86,6 +82,7 @@ jobs:
           mkdir output
           cp -r Library/Application\ Support/*.bundle output
           cp -r Library/MobileSubstrate/DynamicLibraries/*.dylib output
+          rm -rf output/YouTube+.*
 
         env:
           THEOS: ${{ github.workspace }}/theos
