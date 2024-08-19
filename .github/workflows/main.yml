@@ -1,4 +1,4 @@
-name: Build YouTubePlus
+name: Build YouTube+
 
 on:
   workflow_dispatch:
@@ -9,7 +9,7 @@ concurrency:
 
 jobs:
   build:
-    name: Build YouTubePlus
+    name: Build YouTube+
     runs-on: macos-12
     permissions:
       contents: write
@@ -69,7 +69,7 @@ jobs:
         env:
           THEOS: ${{ github.workspace }}/theos
 
-      - name: Build Tweak YouTubePlus
+      - name: Build Tweak YouTube+
         id: build_package
         run: |
           (echo export PATH="/usr/local/opt/make/libexec/gnubin:$PATH" >> ~/.bash_profile)
@@ -93,6 +93,6 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v4.3.3
         with:
-          name: YouTubePlus
+          name: YouTube+
           path: main/packages/output/*
           if-no-files-found: error

@@ -10,21 +10,6 @@
 [submodule "Tweaks/YouTubeHeader"]
 	path = Tweaks/YouTubeHeader
 	url = https://github.com/PoomSmart/YouTubeHeader.git
-[submodule "Tweaks/Alderis"]
-	path = Tweaks/Alderis
-	url = https://github.com/hbang/Alderis.git
 [submodule "Tweaks/DontEatMyContent"]
 	path = Tweaks/DontEatMyContent
 	url = https://github.com/therealFoxster/DontEatMyContent
-# [submodule "Tweaks/iSponsorBlock"]
-# 	path = Tweaks/iSponsorBlock
-# 	url = https://github.com/Galactic-Dev/iSponsorBlock.git
-[submodule "Tweaks/NoYTPremium"]
-	path = Tweaks/NoYTPremium
-	url = https://github.com/PoomSmart/NoYTPremium.git
-[submodule "Tweaks/YouTube-X"]
-	path = Tweaks/YouTube-X
-	url = https://github.com/PoomSmart/YouTube-X.git
-[submodule "Tweaks/YouChooseQuality"]
-	path = Tweaks/YouChooseQuality
-	url = https://github.com/PoomSmart/YouChooseQuality.git
