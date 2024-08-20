@@ -1,7 +1,12 @@
-name: Build YouTube+
+name: Build YouTubePlus
 
 on:
   workflow_dispatch:
+    inputs:
+      ytlite_deb_url:
+        description: "Direct URL of the YTLite deb file"
+        required: true
+        type: string
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -9,29 +14,30 @@ concurrency:
 
 jobs:
   build:
-    name: Build YouTube+
+    name: Build YouTubePlus
     runs-on: macos-12
     permissions:
       contents: write
 
     steps:
-      - name: Checkout Main
-        uses: actions/checkout@v4.1.6
+      - name: Checkout Main Repository
+        uses: actions/checkout@v4
         with:
           path: main
           ref: ${{ github.event.inputs.commit_id || github.ref }}
           submodules: recursive
 
-      - name: Setup Theos
-      - uses: Randomblock1/theos-action@v1
-        with:          
-          theos-src: 'https://github.com/theos/theos'
-          theos-sdks: 'https://github.com/theos/sdks'
-          theos-sdks-branch: 'master'
+      - name: Install Dependencies
+        run: brew install dpkg
 
-      - name: Caching
-        id: SDK
-        uses: actions/cache@v4.0.2
+      - name: Setup Theos
+        uses: Randomblock1/theos-action@v1
+        with:
+          theos-src: "https://github.com/theos/theos"
+
+      - name: Cache iOS SDK
+        id: sdk-cache
+        uses: actions/cache@v4
         env:
           cache-name: iOS-16.5-SDK
         with:
@@ -39,57 +45,68 @@ jobs:
           key: ${{ env.cache-name }}
 
       - name: Download iOS 16.5 SDK
-        if: steps.SDK.outputs.cache-hit != 'true'
+        if: steps.sdk-cache.outputs.cache-hit != 'true'
         run: |
-          git clone -n --depth=1 --filter=tree:0 https://github.com/theos/sdks.git && cd sdks
+          git clone -n --depth=1 --filter=tree:0 https://github.com/theos/sdks.git
+          cd sdks
           git sparse-checkout set --no-cone iPhoneOS16.5.sdk
           git checkout
-          mv *.sdk $THEOS/sdks
+          mkdir -p $THEOS/sdks
+          cp -r iPhoneOS16.5.sdk/* $THEOS/sdks/iPhoneOS16.5.sdk/
         env:
           THEOS: ${{ github.workspace }}/theos
 
       - name: Setup Theos Jailed
-        uses: actions/checkout@v4.1.6
+        uses: actions/checkout@v4
         with:
           repository: qnblackcat/theos-jailed
           ref: master
           path: theos-jailed
           submodules: recursive
 
-      - name: Set PATH environment variable
+      - name: Update PATH for GNU Make
         run: echo "$(brew --prefix make)/libexec/gnubin" >> $GITHUB_PATH
 
       - name: Install Theos Jailed
-        run: |
-          ./theos-jailed/install
+        run: ./theos-jailed/install
         env:
           THEOS: ${{ github.workspace }}/theos
 
-      - name: Build Tweak YouTube+
+      - name: Prepare YTLite DEB Package
+        run: |
+          cd ${{ github.workspace }}/main/Tweaks/YTLite
+          wget "${{ github.event.inputs.ytlite_deb_url }}" --no-verbose -O YTLite.deb
+          YTLITE_VERSION=$(dpkg-deb -f YTLite.deb Version)
+          echo "YTLITE_VERSION=${YTLITE_VERSION}" >> $GITHUB_ENV
+          tar -xf YTLite.deb && tar -xf data.tar.*
+          find . -type d -name "*.bundle" -exec cp -r {} . \;
+          find . -type f -name "*.dylib" -exec cp -r {} . \;
+
+      - name: Build YouTubePlus Tweak
         id: build_package
         run: |
-          (echo export PATH="/usr/local/opt/make/libexec/gnubin:$PATH" >> ~/.bash_profile)
+          echo 'export PATH="/usr/local/opt/make/libexec/gnubin:$PATH"' >> ~/.bash_profile
           source ~/.bash_profile
           cd ${{ github.workspace }}/main
           make package FINALPACKAGE=1
           Version=$(grep '^Version' control | cut -d' ' -f2)
           echo "Version=$Version" >> $GITHUB_OUTPUT
           echo "==> Built v$Version Successfully."
-          cd ${{ github.workspace }}/main/packages
+          cd packages
           tweakName=$(ls *.deb)
           echo "tweakName=${tweakName}" >> $GITHUB_OUTPUT
           tar -xf ${tweakName}; tar -xf data.tar.*
           mkdir output
           cp -r Library/Application\ Support/*.bundle output
           cp -r Library/MobileSubstrate/DynamicLibraries/*.dylib output
-          rm -rf output/YouTube+.*
+          rm -rf output/YouTubePlus.*
 
         env:
           THEOS: ${{ github.workspace }}/theos
 
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4.3.3
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
         with:
-          name: YouTube+
+          name: YTPlus_${{ env.YTLITE_VERSION }}
           path: main/packages/output/*
           if-no-files-found: error
