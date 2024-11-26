@@ -13,3 +13,6 @@
 [submodule "Tweaks/DontEatMyContent"]
 	path = Tweaks/DontEatMyContent
 	url = https://github.com/therealFoxster/DontEatMyContent
+[submodule "Tweaks/YouTube-X"]
+	path = Tweaks/YouTube-X
+	url = https://github.com/PoomSmart/YouTube-X.git
