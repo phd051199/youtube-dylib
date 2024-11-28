@@ -76,9 +76,19 @@ jobs:
         run: |
           cd ${{ github.workspace }}/main/Tweaks/YTLite
           wget "${{ github.event.inputs.ytlite_deb_url }}" --no-verbose -O YTLite.deb
-          YTLITE_VERSION=$(dpkg-deb -f YTLite.deb Version)
-          echo "YTLITE_VERSION=${YTLITE_VERSION}" >> $GITHUB_ENV
-          tar -xf YTLite.deb && tar -xf data.tar.*
+
+          # Check if the file is a zip or deb
+          if file YTLite.deb | grep -q "Zip archive data"; then
+            echo "File is a zip. Extracting..."
+            unzip YTLite.deb
+          else
+            echo "File is a deb. Extracting..."
+            YTLITE_VERSION=$(dpkg-deb -f YTLite.deb Version)
+            echo "YTLITE_VERSION=${YTLITE_VERSION}" >> $GITHUB_ENV
+            tar -xf YTLite.deb && tar -xf data.tar.*
+          fi
+
+          # Copy required files
           find . -type d -name "*.bundle" -exec cp -r {} . \;
           find . -type f -name "*.dylib" -exec cp -r {} . \;
 
