@@ -15,7 +15,7 @@ concurrency:
 jobs:
   build:
     name: Build YouTubePlus
-    runs-on: macos-12
+    runs-on: macos-latest
     permissions:
       contents: write
 
@@ -72,12 +72,18 @@ jobs:
         env:
           THEOS: ${{ github.workspace }}/theos
 
+      - name: Copy Bundles
+        run: |
+          mkdir -p ${{ github.workspace }}/main/Bundles
+          cd ${{ github.workspace }}/main/Tweaks
+          find . -type d -name "*.bundle" -exec cp -r {} ${{ github.workspace }}/main/Bundles \;
+
       - name: Prepare YTLite DEB Package
         run: |
+          mkdir -p ${{ github.workspace }}/main/Tweaks/YTLite
           cd ${{ github.workspace }}/main/Tweaks/YTLite
           wget "${{ github.event.inputs.ytlite_deb_url }}" --no-verbose -O YTLite.deb
 
-          # Check if the file is a zip or deb
           if file YTLite.deb | grep -q "Zip archive data"; then
             echo "File is a zip. Extracting..."
             unzip YTLite.deb
@@ -88,7 +94,6 @@ jobs:
             tar -xf YTLite.deb && tar -xf data.tar.*
           fi
 
-          # Copy required files
           find . -type d -name "*.bundle" -exec cp -r {} . \;
           find . -type f -name "*.dylib" -exec cp -r {} . \;
 
