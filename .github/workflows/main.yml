@@ -7,6 +7,10 @@ on:
         description: "Direct URL of the YTLite deb file"
         required: true
         type: string
+      release:
+        required: false
+        type: boolean
+        default: false
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -125,3 +129,11 @@ jobs:
           name: YTPlus_${{ env.YTLITE_VERSION }}
           path: main/packages/output/*
           if-no-files-found: error
+
+      - name: Release Package
+        if: ${{ github.event.inputs.release }}
+        uses: softprops/action-gh-release@v1
+        with:
+          files: main/packages/output/*
+          tag_name: ${{ steps.build_package.outputs.Version }}
+          generate_release_notes: true
