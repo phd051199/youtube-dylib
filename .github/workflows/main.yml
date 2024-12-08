@@ -130,10 +130,15 @@ jobs:
           path: main/packages/output/*
           if-no-files-found: error
 
+      - name: Prepare Release
+        if: ${{ github.event.inputs.release }}
+        run: |
+          zip -j main/packages/output/YTPlus_${{ env.YTLITE_VERSION }}.zip main/packages/output/*
+
       - name: Release Package
         if: ${{ github.event.inputs.release }}
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
-          files: main/packages/output/*
-          tag_name: ${{ steps.build_package.outputs.Version }}
+          files: main/packages/output/YTPlus_${{ env.YTLITE_VERSION }}.zip
+          tag_name: ${{ env.YTLITE_VERSION }}
           generate_release_notes: true
