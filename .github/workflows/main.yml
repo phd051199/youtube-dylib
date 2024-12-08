@@ -7,7 +7,13 @@ on:
         description: "Direct URL of the YTLite deb file"
         required: true
         type: string
+      upload_artifacts:
+        description: "Upload artifacts"
+        required: false
+        default: true
+        type: boolean
       release:
+        description: "Create a release"
         required: false
         type: boolean
         default: false
@@ -124,16 +130,22 @@ jobs:
           THEOS: ${{ github.workspace }}/theos
 
       - name: Upload Build Artifacts
+        if: ${{ github.event.inputs.upload_artifacts }}
         uses: actions/upload-artifact@v4
         with:
           name: YTPlus_${{ env.YTLITE_VERSION }}
           path: main/packages/output/*
           if-no-files-found: error
 
+      - name: Prepare Release
+        if: ${{ github.event.inputs.release }}
+        run: |
+          zip -j main/packages/output/YTPlus_${{ env.YTLITE_VERSION }}.zip main/packages/output/*
+
       - name: Release Package
         if: ${{ github.event.inputs.release }}
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
-          files: main/packages/output/*
-          tag_name: ${{ steps.build_package.outputs.Version }}
+          files: main/packages/output/YTPlus_${{ env.YTLITE_VERSION }}.zip
+          tag_name: ${{ env.YTLITE_VERSION }}
           generate_release_notes: true
