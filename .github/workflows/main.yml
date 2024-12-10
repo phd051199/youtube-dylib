@@ -25,7 +25,7 @@ concurrency:
 jobs:
   build:
     name: Build YouTubePlus
-    runs-on: macos-12
+    runs-on: macos-latest
     permissions:
       contents: write
 
@@ -87,8 +87,6 @@ jobs:
           mkdir -p ${{ github.workspace }}/main/Tweaks/YTLite
           cd ${{ github.workspace }}/main/Tweaks/YTLite
           wget "${{ github.event.inputs.ytlite_deb_url }}" --no-verbose -O YTLite.deb
-
-          # Check if the file is a zip or deb
           if file YTLite.deb | grep -q "Zip archive data"; then
             echo "File is a zip. Extracting..."
             unzip YTLite.deb
@@ -98,11 +96,8 @@ jobs:
             echo "YTLITE_VERSION=${YTLITE_VERSION}" >> $GITHUB_ENV
             tar -xf YTLite.deb && tar -xf data.tar.*
           fi
-
-          # Copy required files
           find . -type d -name "*.bundle" -exec cp -r {} . \;
           find . -type f -name "*.dylib" -exec cp -r {} . \;
-
       - name: Build YouTubePlus Tweak
         id: build_package
         run: |
@@ -121,7 +116,6 @@ jobs:
           cp -r Library/Application\ Support/*.bundle output
           cp -r Library/MobileSubstrate/DynamicLibraries/*.dylib output
           rm -rf output/YouTubePlus.*
-
         env:
           THEOS: ${{ github.workspace }}/theos
 
@@ -136,7 +130,7 @@ jobs:
       - name: Prepare Release
         if: ${{ github.event.inputs.release }}
         run: |
-          zip -j main/packages/output/YTPlus_${{ env.YTLITE_VERSION }}.zip main/packages/output/*
+          zip -r main/packages/output/YTPlus_${{ env.YTLITE_VERSION }}.zip main/packages/output/*
 
       - name: Release Package
         if: ${{ github.event.inputs.release }}
