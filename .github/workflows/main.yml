@@ -130,7 +130,8 @@ jobs:
       - name: Prepare Release
         if: ${{ github.event.inputs.release }}
         run: |
-          zip -r main/packages/output/YTPlus_${{ env.YTLITE_VERSION }}.zip main/packages/output/*
+          cd ${{ github.workspace }}/main/packages/output
+          zip -r YTPlus_${{ env.YTLITE_VERSION }}.zip *
 
       - name: Release Package
         if: ${{ github.event.inputs.release }}
