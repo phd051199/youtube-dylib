@@ -12,10 +12,12 @@ $(TWEAK_NAME)_FRAMEWORKS = UIKit Security
 $(TWEAK_NAME)_CFLAGS = -fobjc-arc -Wno-module-import-in-extern-c
 
 include $(THEOS)/makefiles/common.mk
+
 ifneq ($(JAILBROKEN),1)
-SUBPROJECTS += $(filter-out Tweaks/YouTubeHeader, $(wildcard Tweaks/*))
+SUBPROJECTS := $(filter-out Tweaks/YouTubeHeader, $(wildcard Tweaks/*))
 include $(THEOS_MAKE_PATH)/aggregate.mk
 endif
+
 include $(THEOS_MAKE_PATH)/tweak.mk
 
 DYLIBS_PATH = Tweaks/YTLite
