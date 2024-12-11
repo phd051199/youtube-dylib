@@ -14,7 +14,7 @@ $(TWEAK_NAME)_CFLAGS = -fobjc-arc -Wno-module-import-in-extern-c
 include $(THEOS)/makefiles/common.mk
 
 ifneq ($(JAILBROKEN),1)
-SUBPROJECTS := $(filter-out Tweaks/YouTubeHeader, $(wildcard Tweaks/*))
+SUBPROJECTS := $(filter-out Tweaks/YTLite Tweaks/YouTubeHeader, $(wildcard Tweaks/*))
 include $(THEOS_MAKE_PATH)/aggregate.mk
 endif
 
