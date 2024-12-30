@@ -16,3 +16,6 @@
 [submodule "Tweaks/YouGroupSettings"]
 	path = Tweaks/YouGroupSettings
 	url = https://github.com/PoomSmart/YouGroupSettings
+[submodule "Tweaks/YTVideoOverlay"]
+	path = Tweaks/YTVideoOverlay
+	url = https://github.com/PoomSmart/YTVideoOverlay.git
