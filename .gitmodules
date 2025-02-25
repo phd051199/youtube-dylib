@@ -12,7 +12,7 @@
 	url = https://github.com/PoomSmart/YouTubeHeader.git
 [submodule "Tweaks/DontEatMyContent"]
 	path = Tweaks/DontEatMyContent
-	url = https://github.com/therealFoxster/DontEatMyContent
+	url = https://github.com/PoomSmart/DontEatMyContent
 [submodule "Tweaks/YouGroupSettings"]
 	path = Tweaks/YouGroupSettings
 	url = https://github.com/PoomSmart/YouGroupSettings
