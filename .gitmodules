@@ -19,3 +19,6 @@
 [submodule "Tweaks/DontEatMyContent"]
 	path = Tweaks/DontEatMyContent
 	url = https://github.com/therealFoxster/DontEatMyContent.git
+[submodule "Tweaks/PSHeader"]
+	path = Tweaks/PSHeader
+	url = https://github.com/PoomSmart/PSHeader.git
