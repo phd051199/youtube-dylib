@@ -10,12 +10,12 @@
 [submodule "Tweaks/YouTubeHeader"]
 	path = Tweaks/YouTubeHeader
 	url = https://github.com/PoomSmart/YouTubeHeader.git
-[submodule "Tweaks/DontEatMyContent"]
-	path = Tweaks/DontEatMyContent
-	url = https://github.com/PoomSmart/DontEatMyContent
 [submodule "Tweaks/YouGroupSettings"]
 	path = Tweaks/YouGroupSettings
-	url = https://github.com/PoomSmart/YouGroupSettings
+	url = https://github.com/PoomSmart/YouGroupSettings.git
 [submodule "Tweaks/YTVideoOverlay"]
 	path = Tweaks/YTVideoOverlay
 	url = https://github.com/PoomSmart/YTVideoOverlay.git
+[submodule "Tweaks/DontEatMyContent"]
+	path = Tweaks/DontEatMyContent
+	url = https://github.com/therealFoxster/DontEatMyContent.git
